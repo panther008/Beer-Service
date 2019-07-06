@@ -1,0 +1,37 @@
+stages:
+  - build
+  - test
+  - release
+  
+build:
+  stage: build
+  script:
+  - 'yarn'
+  - 'yarn test'
+  tags:
+  - nodeJs
+
+test:
+  stage: test
+  variables:
+    GIT_STRATEGY: none
+  script:
+  - ''
+  tags:
+  - nodeJs
+
+.release_Tpl: &release_base
+  stage: release
+  when: manual
+  artifacts:
+    name: "%CI_BUILD_ID%"
+    paths:
+    - build/
+    expire_in: 1 mos
+
+release:
+  <<: *release_base
+  script:
+  - ''
+  tags:
+  - nodeJs
